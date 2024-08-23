@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/adaptlearning/adapt_authoring.git"
+    "url": "https://github.com/rambo-do-the-code/adapt_authoring.git"
   },
   "main": "index",
   "engines": {
@@ -17,7 +17,10 @@
   },
   "scripts": {
     "test": "grunt test",
-    "create-migration": "npx migrate-mongo create -f conf/migrations.js"
+    "create-migration": "npx migrate-mongo create -f conf/migrations.js",
+    "install-s3storage":"cd plugins/filestorage/adapt-s3-storage && npm install",
+    "install-components":"node install-adapt-fw-componsents.js",
+    "postinstall": "npm run install-s3storage"
   },
   "dependencies": {
     "@babel/core": "^7.19.6",
