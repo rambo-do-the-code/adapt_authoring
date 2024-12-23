@@ -1,7 +1,6 @@
 #!/bin/bash
-ENV_VERSION=icms-authoring-tool-0.0.73
+ENV_VERSION=icms-authoring-tool-0.0.74
 ECR=
-
 
 
 function display_message {
