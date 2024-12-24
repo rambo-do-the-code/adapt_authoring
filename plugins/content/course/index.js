@@ -79,7 +79,36 @@ function initialize () {
   var app = origin();
   app.once('serverStarted', function(server) {
     // force search to use only courses created by current user
-    rest.get('/my/course', (req, res, next) => doQuery(req, res, [{ createdBy: req.user._id }], next));
+    rest.get('/my/course', (req, res, next) =>{
+      let currentUser = usermanager.getCurrentUser();
+      //checking role of user
+      usermanager.retrieveUser({"email":currentUser.email},"",(error,user)=>{
+        if(error){
+          console.log(" Error:",error);
+          doQuery(req, res, [{ createdBy: req.user._id }], next);
+        }else{
+          app.rolemanager.retrieveRoles({ _id: user.roles }, {}, function (err, roles) {
+            if (err) {
+              console.log(" Error:",error);
+              doQuery(req, res, [{ createdBy: req.user._id }], next);
+            }else{
+              let isAdmin=false;
+              for(const key in roles){
+                if(roles[key].name === 'Super Admin') isAdmin=true;
+              }
+              if(isAdmin){
+                doQuery(req, res, [], next);
+              }else{
+                doQuery(req, res, [{ createdBy: req.user._id }], next);
+              }
+            }
+          });
+        }
+      });
+
+
+    });
+
     // Only return courses which have been shared
     rest.get('/shared/course', (req, res, next) => {
       req.body.search = Object.assign({}, req.body.search, { $or: [{ _shareWithUsers: req.user._id }, { _isShared: true }] });
