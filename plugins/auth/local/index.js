@@ -304,7 +304,7 @@ LocalAuth.prototype.generateTokenICMS = async function (req, res, next) {
 
   try {
     // Perform the fetch request
-    const response = await fetch(`https://icms.schoolux.ai/lms/public/v1/validate-token/${token}`, {
+    const response = await fetch(`${process.env.DOMAIN_BE_API}/public/v1/validate-token/${token}`, {
       method: "GET",
     });
 
@@ -383,7 +383,7 @@ LocalAuth.prototype.generateTokenICMS = async function (req, res, next) {
             });
           });
         })(req, res, next);
-        
+
       } else {
 
         // Return 200 even if user doesn't exist to prevent brute force hacking
