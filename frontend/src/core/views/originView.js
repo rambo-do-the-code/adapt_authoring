@@ -1,25 +1,22 @@
 define(['require', 'backbone', 'core/origin', 'modules/user/models/sessionModel'], function(require, Backbone, Origin, SessionModel) {
-  // Lấy token từ URL
+  // get  token  from url
   const token = Origin.getTokenFromUrl();
-  
-  
+
+
   if (token) {
     if (!Origin.sessionModel) {
-      // Khởi tạo sessionModel nếu chưa có
-      const session = new SessionModel();
-      Origin.startSession(session);  // Khởi tạo sessionModel với Origin
+      // init sessionModel
+      Origin.sessionModel = new SessionModel();
     }
-    Origin.sessionModel.logout();
-
-    // Gọi backend để xác thực token
+    // force logout make sure we log in correct account
+    Origin.sessionModel.forceLogout();
+    // sso logic
     Origin.sessionModel.authenticateWithToken(token, function(userData) {
-      // Nếu xác thực thành công, tiếp tục với quy trình đăng xuất và đăng nhập lại
-      // Đăng xuất người dùng hiện tại
-      // Sau khi đăng xuất, đăng nhập lại với dữ liệu từ token mới
-      Origin.sessionModel.ssoLogin(userData);  // Giả sử userData chứa email và password
+      console.log("authenticateWithToken success")
+      Origin.sessionModel.ssoLogin(userData); // sso logic for user
     });
   } else {
-    console.log("Không tìm thấy token trong URL.");
+    console.log("Not find token in url. login in normal mode manual");
   }
 
   var OriginView = Backbone.View.extend({
