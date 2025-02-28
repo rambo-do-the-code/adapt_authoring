@@ -64,6 +64,19 @@ define(['require', 'backbone', 'core/origin'], function(require, Backbone, Origi
         Origin.router.navigateToLogin();
       }, this));
     },
+    // custom forceLogout
+    forceLogout: function () {
+      $.post('api/logout', _.bind(function() {
+        // revert to the defaults
+        this.set(this.defaults);
+        Origin.trigger('login:changed')
+        // clear force cookie make sure not exists cookie in browser
+        document.cookie.split(";").forEach(function(c) {
+          document.cookie = c.trim().split("=")[0] +
+            "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
+        });
+      }, this));
+    },
   });
 
   return SessionModel;
