@@ -50,7 +50,6 @@ define(['require', 'backbone', 'core/origin'], function(require, Backbone, Origi
           permissions: userData.permissions
       }
       this.set(userDataChange);
-      console.log(userDataChange)
 
       Origin.trigger('login:changed');
       Origin.trigger('schemas:loadData', Origin.router.navigateToHome);
@@ -65,7 +64,7 @@ define(['require', 'backbone', 'core/origin'], function(require, Backbone, Origi
       }, this));
     },
     // custom forceLogout
-    forceLogout: function () {
+    forceLogout: function (cb) {
       $.post('api/logout', _.bind(function() {
         // revert to the defaults
         this.set(this.defaults);
@@ -75,6 +74,11 @@ define(['require', 'backbone', 'core/origin'], function(require, Backbone, Origi
           document.cookie = c.trim().split("=")[0] +
             "=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/";
         });
+        console.log("forceLogout completed");
+
+        if (typeof cb === 'function') {
+          cb();
+        }
       }, this));
     },
   });

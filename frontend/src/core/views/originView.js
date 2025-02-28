@@ -2,18 +2,23 @@ define(['require', 'backbone', 'core/origin', 'modules/user/models/sessionModel'
   // get  token  from url
   const token = Origin.getTokenFromUrl();
 
-
   if (token) {
     if (!Origin.sessionModel) {
       // init sessionModel
-      Origin.sessionModel = new SessionModel();
+      const session = new SessionModel();
+      Origin.sessionModel = session;
     }
-    // force logout make sure we log in correct account
-    Origin.sessionModel.forceLogout();
-    // sso logic
-    Origin.sessionModel.authenticateWithToken(token, function(userData) {
-      console.log("authenticateWithToken success")
-      Origin.sessionModel.ssoLogin(userData); // sso logic for user
+
+    // force logout to make sure we log in to the correct account
+    console.log("Forcing logout to ensure the correct account login...");
+    Origin.sessionModel.forceLogout(function() {
+      console.log("Logout completed. Proceeding with authentication...");
+
+      // sso logic
+      Origin.sessionModel.authenticateWithToken(token, function(userData) {
+        console.log("authenticateWithToken success");
+        Origin.sessionModel.ssoLogin(userData); // sso logic for user
+      });
     });
   } else {
     console.log("Not find token in url. login in normal mode manual");
@@ -86,7 +91,7 @@ define(['require', 'backbone', 'core/origin', 'modules/user/models/sessionModel'
     sortArrayByKey: function (arr, key) {
       return arr.sort(function(a, b){
         var keyA = a[key],
-        keyB = b[key];
+          keyB = b[key];
         if(keyA < keyB) return -1;
         if(keyA > keyB) return 1;
         return 0;
