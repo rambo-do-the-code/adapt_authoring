@@ -9,7 +9,7 @@
 /node_modules/
 /nbproject/
 /master/
-
+/plugins/*
 /plugins/content/component/versions/
 /plugins/content/component/componentcache/
 /plugins/content/extension/versions/
