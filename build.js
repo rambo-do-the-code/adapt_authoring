@@ -288,6 +288,9 @@ function generatePromptOverrides() {
   if(USE_CONFIG) {
     var configJson = require('./conf/config.json');
     var configData = JSON.parse(JSON.stringify(configJson));
+    configData.dbConnectionUri = process.env.DB_URI || configData.dbConnectionUri;
+    configData.dbName = process.env.DB_NAME || configData.dbName;
+    configData.masterTenantID = process.env.TENANT_ID || configData.masterTenantID ;
     addConfig(configData);
     configData.install = true;
   }

@@ -47,8 +47,10 @@ const dbOptions = {
   var configFile = 'conf/config.json';
   fs.readJSON(configFile,function(err, data){
     if (err) throw err;
+    data.dbConnectionUri = process.env.DB_URI || data.dbConnectionUri;
+    data.dbName = process.env.DB_NAME || data.dbName;
+    data.masterTenantID = process.env.TENANT_ID || data.masterTenantID ;
     var dir = path.join(configuration.tempDir, data.masterTenantID, OutputConstants.Folders.Framework);
-    console.log(data);
     fs.readJSON(path.join('./', "adapt-framework-components.json"),async function(error, json) {
       if (error) {
         return "Failed";
