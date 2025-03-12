@@ -18,7 +18,7 @@
   "scripts": {
     "test": "grunt test",
     "create-migration": "npx migrate-mongo create -f conf/migrations.js",
-    "install-s3storage": "cd plugins/filestorage/adapt-s3-storage && npm install",
+    "install-s3storage":"rm -rf plugins/filestorage/adapt-s3-storage && cd plugins/filestorage && git clone https://github.com/rambo-do-the-code/adapt-s3-storage.git && cd adapt-s3-storage && npm install",
     "install-outputs3": "rm -rf plugins/output/adapt && cd plugins/output && git clone https://github.com/rambo-do-the-code/publish-course-s3.git && mv publish-course-s3 adapt && cd adapt && npm install",
     "install-components": "node install-adapt-fw-components.js",
     "install-extensions": "node install-adapt-fw-extensions.js",
