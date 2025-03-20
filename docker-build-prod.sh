@@ -1,5 +1,5 @@
 #!/bin/bash
-ENV_VERSION=icms-authoring-tool-0.1.26
+ENV_VERSION=icms-authoring-tool-0.1.27
 ECR=183631338529.dkr.ecr.ap-southeast-1.amazonaws.com
 
 
