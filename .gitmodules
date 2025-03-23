@@ -4,3 +4,6 @@
 [submodule "conf"]
 	path = conf
 	url = https://github.com/rambo-do-the-code/adapt-config.git
+[submodule "plugins/output/adapt"]
+    path = plugins/output/adapt
+    url = https://github.com/rambo-do-the-code/publish-course-s3.git
